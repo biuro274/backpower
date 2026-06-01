@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BackPower – Magazyny Energii, Fotowoltaika, Pompy Ciepła</title>
+<meta name="description" content="BackPower – nowoczesne rozwiązania OZE dla domu i firmy. Magazyny energii, fotowoltaika, pompy ciepła i ładowarki EV. Bezpłatna wycena.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--navy:#11274F;--navy-d:#0B1A38;--navy-l:#1C3A6E;--accent:#2E7DD1;--accent-l:#4DA3E8;--ice:#EEF3FA;--gray:#F6F8FB;--text:#11274F;--muted:#5C6B85;--line:#E2E9F2}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',sans-serif;color:var(--text);background:#fff;overflow-x:hidden;line-height:1.5}
+a{text-decoration:none;color:inherit}
+.logo-ico{width:100%;height:100%;display:block}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:0 5%;background:rgba(11,26,56,.92);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:space-between;height:76px;border-bottom:1px solid rgba(255,255,255,.08)}
+.brand{display:flex;align-items:center;gap:13px;color:#fff;font-weight:800;font-size:1.35rem;letter-spacing:-.03em}
+.brand .ico{width:42px;height:42px;color:#fff}
+.brand b{color:var(--accent-l)}
+.nav-links{display:flex;gap:34px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.82);font-size:.92rem;font-weight:500;transition:.2s}
+.nav-links a:hover{color:#fff}
+.nav-cta{background:var(--accent);color:#fff;padding:11px 26px;border-radius:8px;font-weight:600;font-size:.9rem;transition:.2s;white-space:nowrap}
+.nav-cta:hover{background:var(--accent-l)}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.burger span{width:26px;height:2.5px;background:#fff;border-radius:2px}
+/* HERO */
+.hero{min-height:100vh;background:linear-gradient(140deg,#0B1A38 0%,#11274F 45%,#1C3A6E 100%);display:flex;align-items:center;position:relative;overflow:hidden;padding:130px 5% 90px}
+.hero::before{content:'';position:absolute;top:-15%;right:-8%;width:680px;height:680px;background:radial-gradient(circle,rgba(77,163,232,.18) 0%,transparent 65%);pointer-events:none}
+.hero-bg-logo{position:absolute;right:-120px;top:50%;transform:translateY(-50%);width:680px;height:680px;color:rgba(255,255,255,.04);pointer-events:none}
+.hero-content{max-width:720px;z-index:2}
+.badge{display:inline-flex;align-items:center;gap:9px;background:rgba(77,163,232,.14);border:1px solid rgba(77,163,232,.35);color:var(--accent-l);padding:8px 18px;border-radius:100px;font-size:.82rem;font-weight:600;margin-bottom:30px;letter-spacing:.04em}
+.badge::before{content:'';width:8px;height:8px;border-radius:50%;background:var(--accent-l);box-shadow:0 0 10px var(--accent-l)}
+.hero h1{font-size:clamp(2.3rem,5.5vw,4.1rem);font-weight:900;color:#fff;line-height:1.08;letter-spacing:-.035em;margin-bottom:26px}
+.hero h1 span{color:var(--accent-l)}
+.hero p{font-size:1.18rem;color:rgba(255,255,255,.72);line-height:1.7;margin-bottom:42px;max-width:580px}
+.hero-btns{display:flex;gap:15px;flex-wrap:wrap}
+.btn-primary{background:var(--accent);color:#fff;padding:16px 38px;border-radius:10px;font-weight:700;font-size:1rem;transition:.25s;display:inline-block}
+.btn-primary:hover{background:var(--accent-l);transform:translateY(-2px);box-shadow:0 12px 30px rgba(46,125,209,.35)}
+.btn-outline{border:1.5px solid rgba(255,255,255,.28);color:#fff;padding:14.5px 34px;border-radius:10px;font-weight:600;font-size:1rem;transition:.25s;display:inline-block}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.07)}
+.hero-stats{display:flex;gap:52px;margin-top:68px;padding-top:50px;border-top:1px solid rgba(255,255,255,.1);flex-wrap:wrap}
+.stat-num{font-size:2.3rem;font-weight:800;color:var(--accent-l);letter-spacing:-.03em;line-height:1}
+.stat-label{font-size:.84rem;color:rgba(255,255,255,.6);margin-top:7px}
+/* SECTIONS */
+section{padding:100px 5%}
+.s-label{font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.s-title{font-size:clamp(1.9rem,3.6vw,2.9rem);font-weight:800;color:var(--navy);letter-spacing:-.03em;line-height:1.14;margin-bottom:20px}
+.s-sub{font-size:1.06rem;color:var(--muted);line-height:1.7;max-width:620px}
+.s-head{margin-bottom:62px}
+/* SERVICES */
+.services{background:#fff}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:26px}
+.card{background:var(--gray);border:1px solid var(--line);border-radius:18px;padding:38px 34px;transition:.3s}
+.card:hover{transform:translateY(-6px);box-shadow:0 22px 50px rgba(17,39,79,.1);border-color:transparent}
+.card-ico{width:60px;height:60px;background:linear-gradient(135deg,var(--navy),var(--navy-l));border-radius:14px;display:flex;align-items:center;justify-content:center;margin-bottom:24px;font-size:1.7rem}
+.card h3{font-size:1.22rem;font-weight:700;color:var(--navy);margin-bottom:13px;letter-spacing:-.02em}
+.card p{color:var(--muted);line-height:1.7;font-size:.94rem}
+/* WHY */
+.why{background:linear-gradient(140deg,#0B1A38,#11274F);position:relative;overflow:hidden}
+.why::before{content:'';position:absolute;bottom:-150px;left:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(46,125,209,.12) 0%,transparent 65%)}
+.why .s-title,.why .s-label{color:#fff}
+.why .s-label{color:var(--accent-l)}
+.why .s-sub{color:rgba(255,255,255,.7)}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:28px;margin-top:54px;position:relative;z-index:1}
+.why-item{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:15px;padding:32px 28px;transition:.3s}
+.why-item:hover{background:rgba(46,125,209,.12);border-color:rgba(77,163,232,.4)}
+.why-num{font-size:2.4rem;font-weight:800;color:var(--accent-l);line-height:1;margin-bottom:15px}
+.why-item h4{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:11px}
+.why-item p{font-size:.89rem;color:rgba(255,255,255,.6);line-height:1.65}
+/* PROCESS */
+.process{background:var(--ice)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;position:relative}
+.step{text-align:center;padding:0 20px;position:relative;z-index:1}
+.step-c{width:78px;height:78px;border-radius:50%;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:800;margin:0 auto 22px;border:5px solid #fff;box-shadow:0 0 0 3px var(--accent)}
+.step h4{font-size:1.02rem;font-weight:700;color:var(--navy);margin-bottom:10px}
+.step p{font-size:.87rem;color:var(--muted);line-height:1.6}
+/* NUMBERS */
+.numbers{background:#fff;padding:80px 5%}
+.nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:36px;text-align:center}
+.num-big{font-size:3rem;font-weight:900;color:var(--accent);line-height:1;letter-spacing:-.04em}
+.num-lbl{font-size:.88rem;color:var(--muted);margin-top:9px;font-weight:500}
+/* CTA */
+.cta{background:linear-gradient(135deg,var(--navy) 0%,var(--accent) 130%);padding:100px 5%;text-align:center;position:relative;overflow:hidden}
+.cta h2{font-size:clamp(1.9rem,4vw,3rem);font-weight:800;color:#fff;letter-spacing:-.03em;margin-bottom:16px}
+.cta p{font-size:1.12rem;color:rgba(255,255,255,.82);margin-bottom:40px;max-width:540px;margin-inline:auto}
+.btn-white{background:#fff;color:var(--navy);padding:18px 48px;border-radius:11px;font-weight:700;font-size:1.05rem;display:inline-block;transition:.25s}
+.btn-white:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.25)}
+/* CONTACT */
+.contact{background:var(--gray)}
+.c-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.c-info h3{font-size:1.5rem;font-weight:700;color:var(--navy);margin-bottom:18px}
+.c-info>p{color:var(--muted);line-height:1.7;margin-bottom:34px}
+.c-det{display:flex;align-items:center;gap:14px;margin-bottom:18px}
+.c-det .ic{width:46px;height:46px;border-radius:11px;background:var(--ice);display:flex;align-items:center;justify-content:center;font-size:1.25rem;flex-shrink:0}
+.c-det strong{display:block;color:var(--navy);font-size:.98rem}
+.c-det small{color:var(--muted)}
+.form{background:#fff;border-radius:18px;padding:38px;box-shadow:0 10px 45px rgba(17,39,79,.08)}
+.form h4{font-size:1.18rem;font-weight:700;color:var(--navy);margin-bottom:22px}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg{margin-bottom:15px}
+.fg label{display:block;font-size:.83rem;font-weight:600;color:var(--navy);margin-bottom:7px}
+.fg input,.fg select,.fg textarea{width:100%;padding:12px 15px;border:1.5px solid var(--line);border-radius:9px;font-family:inherit;font-size:.94rem;color:var(--text);outline:none;transition:.2s}
+.fg input:focus,.fg select:focus,.fg textarea:focus{border-color:var(--accent)}
+.fg textarea{resize:none;height:100px}
+.fsub{width:100%;background:var(--navy);color:#fff;padding:15px;border:none;border-radius:9px;font-family:inherit;font-size:1rem;font-weight:700;cursor:pointer;transition:.2s}
+.fsub:hover{background:var(--accent)}
+/* FOOTER */
+footer{background:var(--navy-d);color:rgba(255,255,255,.65);padding:64px 5% 30px}
+.f-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:46px;margin-bottom:46px}
+.f-brand .brand{margin-bottom:16px}
+.f-brand p{font-size:.9rem;line-height:1.7;max-width:290px}
+footer h5{font-size:.82rem;font-weight:700;color:#fff;text-transform:uppercase;letter-spacing:.1em;margin-bottom:17px}
+footer ul{list-style:none}
+footer ul li{margin-bottom:10px}
+footer ul li a{font-size:.89rem;transition:.2s}
+footer ul li a:hover{color:#fff}
+.f-bot{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:.84rem;flex-wrap:wrap;gap:12px}
+@media(max-width:900px){.nav-links,.nav-cta{display:none}.burger{display:flex}.c-grid{grid-template-columns:1fr}.f-grid{grid-template-columns:1fr 1fr}.steps{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.f-grid,.steps{grid-template-columns:1fr}.hero-btns{flex-direction:column}.frow{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a href="#" class="brand"><span class="ico"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="BackPower"><g fill="none" stroke="currentColor"><circle cx="100" cy="100" r="92" stroke-width="9"/><path d="M100 38 a62 62 0 0 1 62 62 v18 a44 44 0 0 1 -44 44 h-36 a44 44 0 0 1 -44 -44 v-18 a62 62 0 0 1 62 -62 z" stroke-width="9"/></g><g fill="currentColor"><circle cx="80" cy="78" r="13"/><circle cx="120" cy="78" r="13"/><circle cx="62" cy="106" r="14"/><circle cx="100" cy="104" r="15"/><circle cx="138" cy="106" r="14"/><circle cx="80" cy="134" r="14"/><circle cx="120" cy="134" r="14"/></g><g fill="#fff"><circle cx="80" cy="78" r="5"/><circle cx="120" cy="78" r="5"/><circle cx="62" cy="106" r="5.5"/><circle cx="100" cy="104" r="6"/><circle cx="138" cy="106" r="5.5"/><circle cx="80" cy="134" r="5.5"/><circle cx="120" cy="134" r="5.5"/></g></svg></span>Back<b>Power</b></a>
+  <ul class="nav-links">
+    <li><a href="#uslugi">Usługi</a></li>
+    <li><a href="#dlaczego">Dlaczego my</a></li>
+    <li><a href="#proces">Jak działamy</a></li>
+    <li><a href="#kontakt">Kontakt</a></li>
+  </ul>
+  <a href="#kontakt" class="nav-cta">Bezpłatna wycena</a>
+  <div class="burger"><span></span><span></span><span></span></div>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-logo"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="BackPower"><g fill="none" stroke="currentColor"><circle cx="100" cy="100" r="92" stroke-width="9"/><path d="M100 38 a62 62 0 0 1 62 62 v18 a44 44 0 0 1 -44 44 h-36 a44 44 0 0 1 -44 -44 v-18 a62 62 0 0 1 62 -62 z" stroke-width="9"/></g><g fill="currentColor"><circle cx="80" cy="78" r="13"/><circle cx="120" cy="78" r="13"/><circle cx="62" cy="106" r="14"/><circle cx="100" cy="104" r="15"/><circle cx="138" cy="106" r="14"/><circle cx="80" cy="134" r="14"/><circle cx="120" cy="134" r="14"/></g><g fill="#fff"><circle cx="80" cy="78" r="5"/><circle cx="120" cy="78" r="5"/><circle cx="62" cy="106" r="5.5"/><circle cx="100" cy="104" r="6"/><circle cx="138" cy="106" r="5.5"/><circle cx="80" cy="134" r="5.5"/><circle cx="120" cy="134" r="5.5"/></g></svg></div>
+  <div class="hero-content">
+    <div class="badge">Certyfikowany instalator OZE</div>
+    <h1>Magazynuj energię.<br><span>Oszczędzaj każdego dnia.</span></h1>
+    <p>BackPower projektuje i montuje magazyny energii, instalacje fotowoltaiczne, pompy ciepła oraz ładowarki EV dla domów i firm w całej Polsce. Zyskaj niezależność energetyczną i niższe rachunki.</p>
+    <div class="hero-btns">
+      <a href="#kontakt" class="btn-primary">Zamów bezpłatną wycenę</a>
+      <a href="#uslugi" class="btn-outline">Poznaj nasze usługi</a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="stat-num">500+</div><div class="stat-label">Zrealizowanych instalacji</div></div>
+      <div><div class="stat-num">15 lat</div><div class="stat-label">Doświadczenia w OZE</div></div>
+      <div><div class="stat-num">98%</div><div class="stat-label">Zadowolonych klientów</div></div>
+      <div><div class="stat-num">24/7</div><div class="stat-label">Wsparcie i monitoring</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="services" id="uslugi">
+  <div class="s-head">
+    <div class="s-label">Nasze usługi</div>
+    <h2 class="s-title">Kompleksowe rozwiązania energetyczne</h2>
+    <p class="s-sub">Od audytu i projektu, przez profesjonalny montaż, po serwis i monitoring — BackPower prowadzi Cię przez całą inwestycję.</p>
+  </div>
+  <div class="grid">
+    <div class="card"><div class="card-ico">🔋</div><h3>Magazyny energii</h3><p>Gromadź nadwyżki energii z fotowoltaiki i korzystaj z nich wieczorem lub w razie awarii sieci. Pełna niezależność energetyczna i ochrona przed wzrostem cen prądu.</p></div>
+    <div class="card"><div class="card-ico">☀️</div><h3>Fotowoltaika</h3><p>Profesjonalny montaż paneli na dachu lub gruncie. Dobieramy optymalną moc instalacji indywidualnie pod Twoje zużycie energii.</p></div>
+    <div class="card"><div class="card-ico">♨️</div><h3>Pompy ciepła</h3><p>Ekologiczne i tanie ogrzewanie domu oraz ciepła woda użytkowa. Pompy powietrzne i gruntowe z dofinansowaniem Czyste Powietrze.</p></div>
+    <div class="card"><div class="card-ico">⚡</div><h3>Ładowarki EV</h3><p>Stacje ładowania samochodów elektrycznych dla domu i firmy. Wallbox zintegrowany z Twoją instalacją fotowoltaiczną.</p></div>
+    <div class="card"><div class="card-ico">📊</div><h3>Audyt energetyczny</h3><p>Analizujemy zużycie energii i dobieramy optymalne rozwiązania oraz dostępne dotacje i ulgi podatkowe.</p></div>
+    <div class="card"><div class="card-ico">🔧</div><h3>Serwis i monitoring</h3><p>Zdalne monitorowanie wydajności instalacji, przeglądy okresowe i szybka reakcja serwisowa. Spokój na lata.</p></div>
+  </div>
+</section>
+
+<section class="why" id="dlaczego">
+  <div class="s-label">Dlaczego BackPower</div>
+  <h2 class="s-title">Inwestycja, która się zwraca</h2>
+  <p class="s-sub">Z BackPower zyskujesz pewność najwyższej jakości wykonania, realne oszczędności i wsparcie na każdym etapie.</p>
+  <div class="why-grid">
+    <div class="why-item"><div class="why-num">01</div><h4>Certyfikowani instalatorzy</h4><p>Nasi technicy posiadają uprawnienia UDT i certyfikaty OZE. Montaż zgodny z normami i zaleceniami producentów.</p></div>
+    <div class="why-item"><div class="why-num">02</div><h4>Najlepsze komponenty</h4><p>Współpracujemy wyłącznie z wiodącymi producentami sprzętu z wieloletnią gwarancją.</p></div>
+    <div class="why-item"><div class="why-num">03</div><h4>Dofinansowania i ulgi</h4><p>Pomagamy uzyskać dotacje z programów Mój Prąd, Czyste Powietrze oraz ulgę termomodernizacyjną.</p></div>
+    <div class="why-item"><div class="why-num">04</div><h4>Kompleksowa obsługa</h4><p>Jeden kontakt dla całej inwestycji — od konsultacji, przez formalności, po serwis.</p></div>
+    <div class="why-item"><div class="why-num">05</div><h4>Szybki zwrot</h4><p>Systemy zwracają się w 5–8 lat, a przez kolejne 20+ lat generują czysty zysk.</p></div>
+    <div class="why-item"><div class="why-num">06</div><h4>Gwarancja i serwis 24/7</h4><p>Gwarancja na robociznę i pełna gwarancja producenta oraz całodobowy monitoring.</p></div>
+  </div>
+</section>
+
+<section class="process" id="proces">
+  <div class="s-head" style="text-align:center"><div class="s-label">Jak działamy</div><h2 class="s-title">4 kroki do niezależności energetycznej</h2></div>
+  <div class="steps">
+    <div class="step"><div class="step-c">1</div><h4>Bezpłatna konsultacja</h4><p>Analizujemy potrzeby i zużycie energii, proponujemy optymalne rozwiązanie.</p></div>
+    <div class="step"><div class="step-c">2</div><h4>Projekt i wycena</h4><p>Przygotowujemy szczegółowy projekt z wyceną i harmonogramem prac.</p></div>
+    <div class="step"><div class="step-c">3</div><h4>Profesjonalny montaż</h4><p>Certyfikowani instalatorzy wykonują montaż terminowo i czysto.</p></div>
+    <div class="step"><div class="step-c">4</div><h4>Uruchomienie i serwis</h4><p>Uruchamiamy system, szkolimy z obsługi i zapewniamy monitoring.</p></div>
+  </div>
+</section>
+
+<section class="numbers">
+  <div class="nums">
+    <div><div class="num-big">500+</div><div class="num-lbl">Instalacji w całej Polsce</div></div>
+    <div><div class="num-big">8 MW</div><div class="num-lbl">Zainstalowanej mocy PV</div></div>
+    <div><div class="num-big">4 MWh</div><div class="num-lbl">Pojemności magazynów</div></div>
+    <div><div class="num-big">2,4 mln</div><div class="num-lbl">Zł oszczędności rocznie</div></div>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Gotowy na tańszą i czystszą energię?</h2>
+  <p>Skontaktuj się z BackPower i otrzymaj bezpłatną wycenę dopasowaną do Twoich potrzeb.</p>
+  <a href="#kontakt" class="btn-white">Zamów bezpłatną wycenę</a>
+</section>
+
+<section class="contact" id="kontakt">
+  <div class="c-grid">
+    <div class="c-info">
+      <div class="s-label">Kontakt</div>
+      <h3 class="s-title">Porozmawiajmy o Twojej inwestycji</h3>
+      <p>Nasz zespół jest do Twojej dyspozycji. Skontaktuj się z nami — odpowiemy w ciągu 24 godzin.</p>
+      <div class="c-det"><div class="ic">📞</div><div><strong>+48 576 646 454</strong><small>Pon–Pt 8:00–17:00</small></div></div>
+      <div class="c-det"><div class="ic">✉️</div><div><strong>biuro@backpower.pl</strong><small>Odpowiadamy w 24h</small></div></div>
+      <div class="c-det"><div class="ic">📍</div><div><strong>ul. J.P. Dziekońskiego 1</strong><small>00-728 Warszawa</small></div></div>
+    </div>
+    <form class="form" onsubmit="alert('Dziękujemy! Skontaktujemy się wkrótce.');return false;">
+      <h4>Bezpłatna wycena</h4>
+      <div class="frow">
+        <div class="fg"><label>Imię i nazwisko</label><input type="text" placeholder="Jan Kowalski" required></div>
+        <div class="fg"><label>Telefon</label><input type="tel" placeholder="+48 500 000 000" required></div>
+      </div>
+      <div class="fg"><label>Email</label><input type="email" placeholder="jan@email.pl" required></div>
+      <div class="fg"><label>Czym jesteś zainteresowany?</label><select><option>Fotowoltaika</option><option>Magazyn energii</option><option>Pompa ciepła</option><option>Ładowarka EV</option><option>Kompletny system OZE</option></select></div>
+      <div class="fg"><label>Wiadomość (opcjonalnie)</label><textarea placeholder="Opisz krótko swoje potrzeby..."></textarea></div>
+      <button type="submit" class="fsub">Wyślij zapytanie →</button>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="f-grid">
+    <div class="f-brand">
+      <a href="#" class="brand"><span class="ico" style="width:38px;height:38px"><svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" aria-label="BackPower"><g fill="none" stroke="currentColor"><circle cx="100" cy="100" r="92" stroke-width="9"/><path d="M100 38 a62 62 0 0 1 62 62 v18 a44 44 0 0 1 -44 44 h-36 a44 44 0 0 1 -44 -44 v-18 a62 62 0 0 1 62 -62 z" stroke-width="9"/></g><g fill="currentColor"><circle cx="80" cy="78" r="13"/><circle cx="120" cy="78" r="13"/><circle cx="62" cy="106" r="14"/><circle cx="100" cy="104" r="15"/><circle cx="138" cy="106" r="14"/><circle cx="80" cy="134" r="14"/><circle cx="120" cy="134" r="14"/></g><g fill="#fff"><circle cx="80" cy="78" r="5"/><circle cx="120" cy="78" r="5"/><circle cx="62" cy="106" r="5.5"/><circle cx="100" cy="104" r="6"/><circle cx="138" cy="106" r="5.5"/><circle cx="80" cy="134" r="5.5"/><circle cx="120" cy="134" r="5.5"/></g></svg></span>Back<b>Power</b></a>
+      <p>Nowoczesne rozwiązania OZE dla domów i firm. Certyfikowany instalator fotowoltaiki, magazynów energii, pomp ciepła i ładowarek EV.</p>
+    </div>
+    <div><h5>Usługi</h5><ul><li><a href="#uslugi">Fotowoltaika</a></li><li><a href="#uslugi">Magazyny energii</a></li><li><a href="#uslugi">Pompy ciepła</a></li><li><a href="#uslugi">Ładowarki EV</a></li><li><a href="#uslugi">Serwis OZE</a></li></ul></div>
+    <div><h5>Firma</h5><ul><li><a href="#dlaczego">O nas</a></li><li><a href="#">Realizacje</a></li><li><a href="#">Certyfikaty</a></li><li><a href="#kontakt">Kontakt</a></li></ul></div>
+    <div><h5>Dofinansowania</h5><ul><li><a href="#">Mój Prąd 6.0</a></li><li><a href="#">Czyste Powietrze</a></li><li><a href="#">Ulga termomod.</a></li><li><a href="#">Kredyt ekologiczny</a></li></ul></div>
+  </div>
+  <div class="f-bot"><span>© 2025 BackPower Sp. z o.o. · NIP: 5214166611</span><span><a href="#">Polityka prywatności</a> · <a href="#">RODO</a></span></div>
+</footer>
+</body>
+</html>
