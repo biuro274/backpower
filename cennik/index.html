@@ -1,0 +1,705 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0B1A38">
+<title>Cennik instalacji PV | BackPower</title>
+<meta name="description" content="Interaktywny cennik BackPower. Dobierz panele, falownik hybrydowy i magazyn energii, sprawdź cenę kompletnej instalacji z montażem oraz szacunkową dotację i ulgę.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap&subset=latin-ext" rel="stylesheet">
+<style>
+:root{--navy:#11274F;--navy-d:#0B1A38;--navy-l:#1C3A6E;--accent:#EE9A2D;--accent-l:#F4B461;--accent-d:#C9821E;--ice:#EEF3FA;--gray:#F6F8FB;--text:#11274F;--muted:#5C6B85;--line:#E2E9F2;--ok:#2E9E6B;--ok-bg:#E8F5EE}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',sans-serif;color:var(--text);background:#fff;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}
+img{max-width:100%}
+h1,h2,h3{font-family:'Sora','Inter',sans-serif}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* ---------- NAV ---------- */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:0 4%;background:rgba(11,26,56,.92);backdrop-filter:blur(14px);display:flex;align-items:center;justify-content:space-between;gap:18px;height:72px}
+.brand{display:flex;align-items:center}
+.logo-head{height:38px;width:195px;display:block}
+.nav-links{display:flex;gap:26px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.82);font-size:.88rem;font-weight:500;transition:.2s}
+.nav-links a:hover,.nav-links a.on{color:#fff}
+.nav-right{display:flex;align-items:center;gap:14px}
+.nav-cta{background:var(--accent);color:var(--navy);padding:11px 22px;border-radius:8px;font-weight:700;font-size:.88rem;transition:.2s;white-space:nowrap}
+.nav-cta:hover{background:var(--accent-l)}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none}
+.burger span{width:24px;height:2px;background:#fff;border-radius:2px}
+.m-menu{display:none;position:fixed;top:72px;left:0;right:0;background:var(--navy-d);z-index:199;padding:18px 6% 26px;flex-direction:column;gap:4px;border-top:1px solid rgba(255,255,255,.1)}
+.m-menu a{color:rgba(255,255,255,.85);padding:12px 0;font-weight:500;border-bottom:1px solid rgba(255,255,255,.06)}
+.m-menu.open{display:flex}
+
+/* ---------- PAGE HEAD ---------- */
+main{padding-top:72px}
+.page-title{max-width:1180px;margin:0 auto;padding:54px 4% 26px;display:flex;justify-content:space-between;align-items:flex-end;gap:28px;flex-wrap:wrap}
+.eyebrow{font-size:.72rem;letter-spacing:.16em;font-weight:700;color:var(--accent-d);margin-bottom:12px}
+.page-title h1{font-size:clamp(1.9rem,4vw,2.9rem);font-weight:800;line-height:1.12;letter-spacing:-.02em}
+.page-title h1 span{color:var(--accent)}
+.intro{color:var(--muted);margin-top:12px;font-size:1.02rem;max-width:44ch}
+.source-tag{background:var(--gray);border:1px solid var(--line);border-radius:10px;padding:12px 16px;font-size:.78rem;font-weight:600;color:var(--muted);line-height:1.6}
+.source-tag b{display:block;color:var(--navy)}
+
+/* ---------- LAYOUT ---------- */
+.workspace{max-width:1180px;margin:0 auto;padding:0 4% 40px;display:grid;grid-template-columns:minmax(0,1fr) 390px;gap:30px;align-items:start}
+.configurator{display:flex;flex-direction:column;gap:18px}
+
+.mode-switch{border:none;display:grid;grid-template-columns:1fr 1fr;gap:8px;background:var(--gray);border:1px solid var(--line);border-radius:14px;padding:6px}
+.mode-switch label,.brand-picker label,.vat-control label{position:relative;cursor:pointer}
+.mode-switch input,.brand-picker input,.vat-control input{position:absolute;opacity:0;inset:0}
+.mode-switch span{display:block;text-align:center;padding:11px 8px;border-radius:9px;font-size:.9rem;font-weight:600;color:var(--muted);transition:.18s}
+.mode-switch span small{display:block;font-weight:500;font-size:.72rem;opacity:.8}
+.mode-switch input:checked+span{background:#fff;color:var(--navy);box-shadow:0 2px 8px rgba(17,39,79,.09)}
+.mode-switch input:focus-visible+span{outline:3px solid var(--accent);outline-offset:2px}
+
+.section{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px 22px 24px}
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}
+.section-heading h2{font-size:1.06rem;font-weight:700;display:flex;align-items:center;gap:11px}
+.step{display:grid;place-items:center;width:28px;height:28px;border-radius:8px;background:var(--navy);color:#fff;font-size:.74rem;font-weight:700;font-family:'Inter'}
+.pill{background:var(--ice);color:var(--navy);border-radius:999px;padding:6px 13px;font-size:.82rem;font-weight:700;white-space:nowrap}
+.secondary{font-size:.8rem;color:var(--muted);font-weight:500}
+
+label{display:block;font-size:.82rem;font-weight:600;color:var(--muted)}
+select,input[type=number]{width:100%;margin-top:7px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;font:600 .92rem 'Inter';color:var(--navy);background:#fff;appearance:none}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235C6B85' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 13px center;padding-right:34px}
+select:disabled{color:var(--muted);background-color:var(--gray)}
+.panel-controls{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.field-label{margin-bottom:0}
+
+.device-selection,.panel-selection{display:grid;grid-template-columns:150px minmax(0,1fr);gap:20px;align-items:center}
+.product-stage{position:relative;display:grid;place-items:center;background:linear-gradient(160deg,#F7FAFF,#EAF0F9);border:1px solid var(--line);border-radius:14px;padding:14px;min-height:172px;overflow:hidden}
+.product-stage img{width:100%;height:158px;object-fit:contain;transition:opacity .25s ease}
+.product-stage figcaption{position:absolute;bottom:8px;left:0;right:0;text-align:center;font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.no-battery{font-size:.84rem;color:var(--muted);font-weight:600}
+.brand-kicker{font-size:.72rem;letter-spacing:.13em;text-transform:uppercase;color:var(--accent-d);font-weight:700}
+.panel-info h3{font-size:1.24rem;font-weight:700;margin:3px 0 4px;letter-spacing:-.01em}
+.panel-features{font-size:.8rem;color:var(--muted);margin-bottom:4px}
+.muted{color:var(--muted);font-size:.85rem}
+.muted strong{color:var(--navy)}
+.device-note{font-size:.78rem;color:var(--muted);line-height:1.55;margin-top:9px}
+.spec-row{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:11px;border-top:1px solid var(--line);font-size:.86rem;color:var(--muted)}
+.spec-row strong{color:var(--navy);font-size:1rem}
+
+.brand-picker{border:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:18px}
+.brand-picker span{display:block;text-align:center;padding:11px 6px;border:1px solid var(--line);border-radius:10px;font-size:.86rem;font-weight:600;color:var(--muted);transition:.18s}
+.brand-picker input:checked+span{border-color:var(--navy);background:var(--navy);color:#fff}
+.brand-picker input:focus-visible+span{outline:3px solid var(--accent);outline-offset:2px}
+
+.quantity-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:14px}
+.stepper{display:flex;align-items:center;gap:4px;background:var(--gray);border:1px solid var(--line);border-radius:10px;padding:4px}
+.stepper button{width:30px;height:30px;border:none;background:#fff;border-radius:7px;font-size:1.05rem;font-weight:700;color:var(--navy);cursor:pointer;box-shadow:0 1px 3px rgba(17,39,79,.1)}
+.stepper button:disabled{opacity:.35;cursor:not-allowed;box-shadow:none}
+.stepper output,.stepper input{width:44px;text-align:center;font:700 .96rem 'Inter';color:var(--navy);margin:0;padding:0;border:none;background:none}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:99px;margin-top:14px;background:linear-gradient(90deg,var(--accent) var(--range,30%),var(--line) var(--range,30%))}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:pointer;box-shadow:0 2px 6px rgba(17,39,79,.2)}
+input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--accent);cursor:pointer}
+.range-labels{display:flex;justify-content:space-between;font-size:.72rem;color:var(--muted);margin-top:7px;font-weight:500}
+
+.check-row{display:flex;align-items:flex-start;gap:11px;padding:13px 14px;border:1px solid var(--line);border-radius:11px;cursor:pointer;font-size:.9rem;font-weight:600;color:var(--navy);margin-top:11px;transition:.16s}
+.check-row:hover{border-color:#C9D6E8}
+.check-row input{width:19px;height:19px;flex:none;accent-color:var(--accent);margin-top:1px}
+.check-row span{display:block;line-height:1.4}
+.check-row small{display:block;font-weight:500;font-size:.75rem;color:var(--muted);margin-top:2px}
+.check-row.on{border-color:var(--accent);background:#FFF9F0}
+.extras-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+.input-unit{position:relative}
+.input-unit span{position:absolute;right:12px;top:50%;transform:translateY(-4px);font-size:.8rem;color:var(--muted);font-weight:600;pointer-events:none}
+.input-unit input{padding-right:40px}
+
+/* EPS row */
+.eps-row{position:relative;overflow:hidden}
+.eps-led{width:9px;height:9px;border-radius:50%;background:#C6D0DE;flex:none;margin-top:6px;transition:.25s}
+.eps-row.on .eps-led{background:var(--ok);box-shadow:0 0 0 4px rgba(46,158,107,.18)}
+.eps-badge{font-size:.7rem;font-weight:700;letter-spacing:.05em;color:var(--ok);background:var(--ok-bg);border-radius:999px;padding:3px 9px;opacity:0;transform:translateY(-3px);transition:.3s;margin-left:auto;align-self:center;white-space:nowrap}
+.eps-row.on .eps-badge{opacity:1;transform:none}
+
+/* ---------- SUMMARY ---------- */
+.summary{position:sticky;top:92px;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;box-shadow:0 14px 40px -22px rgba(17,39,79,.35)}
+.summary-top{background:var(--navy);color:#fff;padding:22px 22px 20px}
+.summary-top .eyebrow{color:var(--accent);margin-bottom:8px}
+.summary-top h2{font-size:1.14rem;font-weight:700}
+.system-stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 14px}
+.system-stats div{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:11px;padding:11px 13px}
+.system-stats span{display:block;font-size:.7rem;letter-spacing:.05em;text-transform:uppercase;color:rgba(255,255,255,.6);font-weight:600}
+.system-stats strong{font-size:1.24rem;font-weight:700;font-family:'Sora'}
+.system-stats small{font-size:.78rem;font-weight:500;opacity:.75;font-family:'Inter'}
+.selected-items{display:flex;flex-direction:column;gap:9px}
+.selected-item{display:flex;gap:11px;align-items:flex-start;font-size:.82rem}
+.item-number{font-size:.64rem;font-weight:700;color:var(--accent);letter-spacing:.06em;padding-top:2px}
+.selected-item strong{display:block;font-weight:600;line-height:1.35}
+.selected-item p{color:rgba(255,255,255,.6);font-size:.75rem;margin-top:1px}
+
+.summary-price{padding:20px 22px 22px}
+.vat-control{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+.vat-control>span{font-size:.82rem;font-weight:600;color:var(--muted)}
+.vat-control fieldset{border:none;display:flex;gap:4px;background:var(--gray);border:1px solid var(--line);border-radius:9px;padding:3px}
+.vat-control span.v{display:block;padding:6px 13px;border-radius:7px;font-size:.8rem;font-weight:700;color:var(--muted)}
+.vat-control input:checked+span.v{background:var(--navy);color:#fff}
+.price-label{font-size:.8rem;color:var(--muted);font-weight:600}
+.total{font-family:'Sora';font-size:2.5rem;font-weight:800;letter-spacing:-.03em;line-height:1.1;margin-top:4px}
+.total small{font-size:1.1rem;font-weight:700;color:var(--muted)}
+.total.unpriced{font-size:1.2rem;color:var(--muted)}
+.gross-note{font-size:.75rem;color:var(--muted);margin-top:3px}
+.net-row{display:flex;justify-content:space-between;font-size:.85rem;color:var(--muted);padding-top:11px;margin-top:11px;border-top:1px solid var(--line)}
+.net-row+.net-row{border-top:none;padding-top:0;margin-top:5px}
+.net-row strong{color:var(--navy)}
+
+.subsidy{margin-top:16px;border:1px solid #D8E8DD;background:#F4FAF6;border-radius:13px;padding:15px 16px}
+.subsidy h3{font-size:.82rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ok);margin-bottom:11px}
+.sub-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:.85rem;color:var(--muted);margin-bottom:7px}
+.sub-row strong{color:#1E7A50;font-weight:700;white-space:nowrap}
+.sub-row.off{opacity:.5}
+.ulga-pick{display:flex;align-items:center;gap:6px;margin:10px 0 4px}
+.ulga-pick>span{font-size:.78rem;color:var(--muted);font-weight:600}
+.ulga-pick .seg{display:flex;gap:3px;background:#fff;border:1px solid #D8E8DD;border-radius:8px;padding:3px;margin-left:auto}
+.ulga-pick label{position:relative;cursor:pointer;margin:0}
+.ulga-pick input{position:absolute;opacity:0;inset:0}
+.ulga-pick .u{display:block;padding:4px 10px;border-radius:6px;font-size:.76rem;font-weight:700;color:var(--muted)}
+.ulga-pick input:checked+.u{background:var(--ok);color:#fff}
+.after-sub{display:flex;justify-content:space-between;align-items:baseline;margin-top:11px;padding-top:11px;border-top:1px dashed #C9E0D2}
+.after-sub span{font-size:.82rem;font-weight:600;color:var(--navy)}
+.after-sub strong{font-family:'Sora';font-size:1.32rem;font-weight:800;color:#1E7A50;letter-spacing:-.02em}
+
+.cta-btn{display:block;text-align:center;background:var(--accent);color:var(--navy);font-weight:700;font-size:.94rem;padding:14px;border-radius:11px;margin-top:16px;transition:.2s}
+.cta-btn:hover{background:var(--accent-l)}
+.pricing-note{font-size:.71rem;color:var(--muted);line-height:1.6;margin-top:13px}
+.quote-unavailable{font-size:.82rem;color:#B3261E;font-weight:600;margin-top:10px}
+
+/* ---------- FOOTER / MOBILE BAR ---------- */
+footer{background:var(--navy-d);color:rgba(255,255,255,.6);padding:34px 4%;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-size:.8rem;max-width:none;margin-top:20px}
+footer a{color:var(--accent)}
+.mobile-total{display:none;position:fixed;bottom:0;left:0;right:0;z-index:180;background:rgba(11,26,56,.96);backdrop-filter:blur(10px);color:#fff;padding:12px 5%;justify-content:space-between;align-items:center;gap:14px}
+.mobile-total span{font-size:.72rem;color:rgba(255,255,255,.6);font-weight:600}
+.mobile-total strong{display:block;font-family:'Sora';font-size:1.14rem;font-weight:700;color:#fff}
+.mobile-total a{background:var(--accent);color:var(--navy);font-weight:700;font-size:.82rem;padding:10px 15px;border-radius:9px;white-space:nowrap}
+
+/* ---------- EPS BLACKOUT ---------- */
+#eps-overlay{position:fixed;inset:0;z-index:9999;background:#05080f;opacity:0;pointer-events:none;will-change:opacity}
+#eps-overlay.cut{opacity:1;transition:none}
+#eps-overlay.restore{animation:eps-restore .95s cubic-bezier(.4,0,.2,1) forwards}
+@keyframes eps-restore{
+  0%{opacity:1;background:#05080f}
+  16%{opacity:.9;background:#05080f}
+  22%{opacity:.18;background:#05080f}
+  30%{opacity:.82;background:#05080f}
+  42%{opacity:.06;background:#05080f}
+  50%{opacity:.44;background:#05080f}
+  62%{opacity:0;background:#05080f}
+  63%{opacity:.001;background:#EE9A2D}
+  72%{opacity:.24;background:#EE9A2D}
+  100%{opacity:0;background:#EE9A2D}
+}
+@media(prefers-reduced-motion:reduce){#eps-overlay{display:none}}
+
+@media(max-width:1040px){
+  .workspace{grid-template-columns:1fr}
+  .summary{position:static}
+  .nav-links{display:none}
+  .burger{display:flex}
+  .mobile-total{display:flex}
+  body{padding-bottom:74px}
+}
+@media(max-width:620px){
+  .nav-cta{display:none}
+  .panel-controls,.extras-grid{grid-template-columns:1fr}
+  .device-selection,.panel-selection{grid-template-columns:1fr;gap:14px}
+  .product-stage{min-height:150px}
+  .page-title{padding-top:38px}
+  .section{padding:18px 16px 20px}
+  .summary-top,.summary-price{padding-left:17px;padding-right:17px}
+  .total{font-size:2.1rem}
+}
+</style>
+</head>
+<body>
+
+<div id="eps-overlay" aria-hidden="true"></div>
+
+<nav>
+  <a href="https://backpower.pl/" class="brand" aria-label="BackPower — strona główna">
+    <svg class="logo-head" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2378 480" role="img" aria-label="BackPower">
+      <g transform="translate(-20.29,-22.28) scale(0.2840)">
+        <circle cx="916.5" cy="923.5" r="635.5" fill="none" stroke="#FFF" stroke-width="67"/>
+        <path d="M 595.30 569.5 L 1237.70 569.5 A 478.0 478.0 0 1 1 595.30 569.5 Z" fill="none" stroke="#FFF" stroke-width="67" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle cx="778.5" cy="740.5" r="52.0" fill="none" stroke="#FFF" stroke-width="52"/>
+        <circle cx="1053.5" cy="741.5" r="52.0" fill="none" stroke="#FFF" stroke-width="52"/>
+        <circle cx="643.5" cy="932.5" r="79.5" fill="none" stroke="#FFF" stroke-width="67"/>
+        <circle cx="916.5" cy="931.5" r="77.5" fill="none" stroke="#FFF" stroke-width="67"/>
+        <circle cx="1186.5" cy="930.5" r="77.5" fill="none" stroke="#FFF" stroke-width="67"/>
+        <circle cx="781.5" cy="1163.5" r="81.0" fill="none" stroke="#FFF" stroke-width="66"/>
+        <circle cx="1052.5" cy="1163.5" r="81.0" fill="none" stroke="#FFF" stroke-width="66"/>
+      </g>
+      <text x="510" y="335" font-family="Sora, Poppins, sans-serif" font-size="280" fill="#FFF"><tspan font-weight="700">BACK</tspan><tspan font-weight="400">POWER</tspan></text>
+    </svg>
+  </a>
+  <ul class="nav-links">
+    <li><a href="https://backpower.pl/#uslugi">Usługi</a></li>
+    <li><a href="https://backpower.pl/#system">Twój system</a></li>
+    <li><a href="#" class="on">Cennik</a></li>
+    <li><a href="https://backpower.pl/#dotacje">Dotacje</a></li>
+    <li><a href="https://backpower.pl/#kontakt">Kontakt</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="https://backpower.pl/#kontakt" class="nav-cta">Bezpłatna wycena</a>
+    <button class="burger" aria-label="Menu" onclick="document.getElementById('mm').classList.toggle('open')"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="m-menu" id="mm">
+  <a href="https://backpower.pl/#uslugi">Usługi</a>
+  <a href="https://backpower.pl/#system">Twój system</a>
+  <a href="#">Cennik</a>
+  <a href="https://backpower.pl/#dotacje">Dotacje</a>
+  <a href="https://backpower.pl/#kontakt">Kontakt</a>
+</div>
+
+<main>
+  <div class="page-title">
+    <div>
+      <p class="eyebrow">TWOJA INSTALACJA, TWÓJ WYBÓR</p>
+      <h1>Skonfiguruj swoją energię<span>.</span></h1>
+      <p class="intro">Wybierz urządzenia i sprawdź cenę kompletnego zestawu wraz z montażem, dotacją i ulgą podatkową.</p>
+    </div>
+    <div class="source-tag"><b>Cennik BackPower · 2026</b>LONGi · TCL Solar · Jinko Solar<br>Hoymiles · FoxESS · Deye</div>
+  </div>
+
+  <div class="workspace">
+    <div class="configurator">
+
+      <fieldset class="mode-switch">
+        <legend class="sr-only">Tryb wyceny</legend>
+        <label><input type="radio" name="mode" value="pv" checked><span>Instalacja PV + magazyn</span></label>
+        <label><input type="radio" name="mode" value="storage"><span>Falownik + magazyn <small>bez PV</small></span></label>
+      </fieldset>
+
+      <!-- 01 PANELE -->
+      <section class="section" id="panels-section" aria-labelledby="panels-heading">
+        <div class="section-heading"><h2 id="panels-heading"><span class="step">01</span> Panele fotowoltaiczne</h2><span class="pill" id="pv-power"></span></div>
+        <div class="panel-controls">
+          <label for="mount">Miejsce montażu
+            <select id="mount"><option value="0">Blachodachówka</option><option value="1">Dachówka</option><option value="2">Blacha trapezowa</option><option value="3">Grunt</option></select>
+          </label>
+          <label for="panel-model">Panel fotowoltaiczny<select id="panel-model"></select></label>
+        </div>
+        <p id="panel-availability" class="device-note"></p>
+        <div class="panel-selection">
+          <figure class="product-stage"><img id="panel-image" alt="" width="160" height="160"><figcaption id="panel-caption"></figcaption></figure>
+          <div class="panel-info">
+            <p class="brand-kicker" id="panel-brand"></p>
+            <h3 id="panel-name"></h3>
+            <p id="panel-features" class="panel-features" hidden></p>
+            <p class="muted">Moc pojedynczego panelu <strong id="panel-watts"></strong></p>
+            <div class="quantity-heading">
+              <label for="panels">Liczba paneli</label>
+              <div class="stepper"><button type="button" data-step="panels:-1" aria-label="Jeden panel mniej">−</button><output id="panels-output" for="panels">10</output><button type="button" data-step="panels:1" aria-label="Jeden panel więcej">+</button></div>
+            </div>
+            <input id="panels" type="range" min="6" max="19" value="10" step="1" aria-label="Liczba paneli">
+            <div class="range-labels"><span id="range-min"></span><span id="range-max"></span></div>
+          </div>
+        </div>
+        <label class="check-row" id="transport-row" hidden><input type="checkbox" id="transport"><span>Transport konstrukcji gruntowej</span></label>
+      </section>
+
+      <!-- 02 FALOWNIK -->
+      <section class="section" aria-labelledby="inverter-heading">
+        <div class="section-heading"><h2 id="inverter-heading"><span class="step">02</span> Falownik hybrydowy</h2><span class="secondary">3 producentów</span></div>
+        <fieldset class="brand-picker">
+          <legend class="sr-only">Producent falownika</legend>
+          <label><input type="radio" name="brand" value="Hoymiles" checked><span>Hoymiles</span></label>
+          <label><input type="radio" name="brand" value="FoxESS"><span>FoxESS</span></label>
+          <label><input type="radio" name="brand" value="Deye"><span>Deye</span></label>
+        </fieldset>
+        <div class="device-selection">
+          <figure class="product-stage"><img id="inverter-image" alt="" width="160" height="160"><figcaption id="inverter-caption">Zdjęcie serii</figcaption></figure>
+          <div class="device-info">
+            <p class="brand-kicker" id="inverter-brand"></p>
+            <label for="inverter" class="field-label">Model i moc falownika</label>
+            <select id="inverter"></select>
+            <div class="spec-row"><span>Moc AC</span><strong id="inverter-power"></strong></div>
+            <p class="device-note" id="inverter-note"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 03 MAGAZYN -->
+      <section class="section" aria-labelledby="battery-heading">
+        <div class="section-heading"><h2 id="battery-heading"><span class="step">03</span> Magazyn energii</h2><span class="pill" id="battery-capacity"></span></div>
+        <div class="device-selection">
+          <figure class="product-stage"><img id="battery-image" alt="" width="160" height="160"><span class="no-battery" id="no-battery" hidden>Bez magazynu</span><figcaption id="battery-caption">Zdjęcie produktu</figcaption></figure>
+          <div class="device-info">
+            <label for="battery" class="field-label">Magazyn do wybranego falownika</label>
+            <select id="battery"></select>
+            <div class="quantity-heading">
+              <label for="battery-quantity" id="battery-quantity-label">Liczba magazynów</label>
+              <div class="stepper"><button type="button" data-step="quantity:-1" aria-label="Mniej magazynów">−</button><input type="number" id="battery-quantity" min="1" max="4" value="1" aria-label="Liczba magazynów"><button type="button" data-step="quantity:1" aria-label="Więcej magazynów">+</button></div>
+            </div>
+            <p class="device-note" id="battery-note"></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 04 DODATKI -->
+      <section class="section" aria-labelledby="extras-heading">
+        <div class="section-heading"><h2 id="extras-heading"><span class="step">04</span> Montaż i dodatki</h2><span class="secondary">Opcjonalnie</span></div>
+        <label class="check-row" id="modernization-row"><input type="checkbox" id="modernization"><span>Modernizacja rozdzielnicy</span></label>
+        <label class="check-row eps-row" id="eps-row">
+          <input type="checkbox" id="backup">
+          <span class="eps-led" aria-hidden="true"></span>
+          <span>Zasilanie awaryjne (backup)<small>Automatyczne przełączenie wybranych obwodów przy zaniku napięcia w sieci</small></span>
+          <span class="eps-badge" aria-hidden="true">● AKTYWNE</span>
+        </label>
+        <div class="extras-grid">
+          <label for="trench">Przekop<div class="input-unit"><input id="trench" type="number" min="0" step="0.1" value="0"><span>m</span></div></label>
+          <label for="tigo" id="tigo-field">Optymalizatory Tigo<div class="input-unit"><input id="tigo" type="number" min="0" step="1" value="0"><span>szt.</span></div></label>
+        </div>
+        <label class="check-row" id="ppoz-row"><input type="checkbox" id="ppoz" checked aria-describedby="ppoz-availability"><span>Zabezpieczenie PPOŻ<small id="ppoz-availability">Dostępne powyżej 6,5 kWp</small></span></label>
+        <p class="device-note">Montaż PV i magazynu oraz wymagane akcesoria są doliczane automatycznie. Przewody nie są wliczone w cenę.</p>
+      </section>
+    </div>
+
+    <!-- SUMMARY -->
+    <aside class="summary" aria-labelledby="summary-heading">
+      <div class="summary-top">
+        <p class="eyebrow">TWÓJ ZESTAW</p>
+        <h2 id="summary-heading">Podsumowanie wyceny</h2>
+        <div class="system-stats">
+          <div><span>Instalacja PV</span><strong id="summary-pv"></strong></div>
+          <div><span>Magazyn energii</span><strong id="summary-capacity"></strong></div>
+        </div>
+        <div id="selected-items" class="selected-items"></div>
+      </div>
+      <div class="summary-price">
+        <div class="vat-control">
+          <span>Stawka VAT</span>
+          <fieldset><legend class="sr-only">Stawka VAT</legend>
+            <label><input type="radio" name="vat" value="0.08" checked><span class="v">8%</span></label>
+            <label><input type="radio" name="vat" value="0.23"><span class="v">23%</span></label>
+          </fieldset>
+        </div>
+        <p class="price-label">Cena zestawu z montażem</p>
+        <div class="total" id="total" role="status" aria-live="polite"></div>
+        <p class="gross-note">brutto · zawiera VAT <span id="vat-label">8%</span></p>
+        <div class="net-row"><span>Cena netto</span><strong id="net"></strong></div>
+        <div class="net-row"><span>Kwota VAT</span><span id="vat-amount"></span></div>
+        <p id="quote-unavailable" class="quote-unavailable" hidden>Nie można obliczyć ceny tego zestawu. Sprawdź konfigurację.</p>
+
+        <div class="subsidy" id="subsidy">
+          <h3>Dotacje i ulgi</h3>
+          <div class="sub-row" id="kpo-row"><span id="kpo-label">Mój Prąd / Przydomowe Magazyny Energii</span><strong id="kpo-value"></strong></div>
+          <div class="ulga-pick" id="ulga-pick">
+            <span>Ulga termomodernizacyjna</span>
+            <div class="seg">
+              <label><input type="radio" name="ulga" value="0.12" checked><span class="u">12%</span></label>
+              <label><input type="radio" name="ulga" value="0.32"><span class="u">32%</span></label>
+            </div>
+          </div>
+          <div class="sub-row"><span>Zwrot z rozliczenia PIT</span><strong id="ulga-value"></strong></div>
+          <div class="after-sub"><span>Koszt po dotacji i uldze</span><strong id="after-subsidy"></strong></div>
+          <p class="device-note" id="subsidy-note"></p>
+        </div>
+
+        <a href="https://backpower.pl/#kontakt" class="cta-btn">Zamów bezpłatną wycenę →</a>
+        <p class="pricing-note">Wycena orientacyjna według cennika BackPower. Dobór techniczny, właściwa stawka VAT oraz kwalifikacja do dotacji i ulgi wymagają potwierdzenia dla konkretnej instalacji. Materiał nie stanowi oferty w rozumieniu art. 66 § 1 Kodeksu cywilnego.</p>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <span>© 2026 BackPower Sp. z o.o. · NIP 5214166611</span>
+    <span><a href="https://backpower.pl/">backpower.pl</a> · <a href="tel:+48576646454">+48 576 646 454</a> · <a href="mailto:biuro@backpower.pl">biuro@backpower.pl</a></span>
+  </footer>
+</main>
+
+<div class="mobile-total"><span>Twój zestaw brutto<strong id="mobile-total"></strong></span><a href="#summary-heading">Podsumowanie ↑</a></div>
+
+<script>
+/* ============ DANE (cennik bazowy) ============ */
+const DATA={
+ mounts:['Blachodachówka','Dachówka','Blacha trapezowa','Grunt'],
+ constants:{pvInstall:900,batteryInstall:2000,extraModuleInstall:0,margin:0.40,groundTransport:600,cables:0,
+   smartMeter:460,epsBox:780,acSmall:380,acLarge:390,dcSmall:370,dcLarge:670,
+   modernization:2000,backup:2000,trench:40,tigo:180,cubeMaster:4950,cubeSlave:4700,ppoz:350},
+ subsidy:{kpoPercent:0.35,kpoMax:16000,ulgaMaxBase:53000},
+ panels:[
+  {id:'panel-540',name:'LONGi LR7-60HVH-540',brand:'LONGi',model:'LR7-60HVH-540',optionLabel:'LONGi 540 W',features:'',power:0.54,price:335,image:'longi-panel',allowedMounts:[0,1,2,3]},
+  {id:'panel-500',name:'TCL Solar HSM-ND54-DR500',brand:'TCL Solar',model:'HSM-ND54-DR500',optionLabel:'TCL Solar 500 W · Full Black',features:'Full Black · N-Type · bifacial',power:0.5,price:289,image:'tcl-panel',allowedMounts:[0,1,2,3]},
+  {id:'panel-620',name:'Jinko Solar JKM620N-66HL4M-BDV',brand:'Jinko Solar',model:'JKM620N-66HL4M-BDV',optionLabel:'Jinko Solar 620 W · tylko grunt',features:'Silver Frame · N-Type · bifacial',power:0.62,price:345,image:'jinko-panel',allowedMounts:[3]}],
+ inverters:[
+  {id:'inv-4',name:'Hoymiles HIT-5L-G3',brand:'Hoymiles',power:5,price:4571,image:'hoymiles-inverter'},
+  {id:'inv-5',name:'Hoymiles HIT-8L-G3',brand:'Hoymiles',power:8,price:4929,image:'hoymiles-inverter'},
+  {id:'inv-6',name:'Hoymiles HIT-10L-G3',brand:'Hoymiles',power:10,price:4929,image:'hoymiles-inverter'},
+  {id:'inv-7',name:'Hoymiles HIT-12L-G3',brand:'Hoymiles',power:12,price:5694,image:'hoymiles-inverter'},
+  {id:'inv-8',name:'Hoymiles HIT-15L-G3',brand:'Hoymiles',power:15,price:6316,image:'hoymiles-inverter'},
+  {id:'inv-9',name:'FoxESS P3-5.0-SH',brand:'FoxESS',power:5,price:4620,image:'foxess-inverter'},
+  {id:'inv-10',name:'FoxESS P3-6.0-SH',brand:'FoxESS',power:6,price:4790,image:'foxess-inverter'},
+  {id:'inv-11',name:'FoxESS P3-8.0-SH',brand:'FoxESS',power:8,price:5040,image:'foxess-inverter'},
+  {id:'inv-12',name:'FoxESS P3-10.0-SH',brand:'FoxESS',power:10,price:5290,image:'foxess-inverter'},
+  {id:'inv-13',name:'FoxESS P3-12.0-SH',brand:'FoxESS',power:12,price:5650,image:'foxess-inverter'},
+  {id:'inv-14',name:'FoxESS P3-15.0-SH',brand:'FoxESS',power:15,price:6130,image:'foxess-inverter'},
+  {id:'inv-15',name:'Deye SUN-5K-SG05LP3-EU',brand:'Deye',power:5,price:4950,image:'deye-inverter'},
+  {id:'inv-16',name:'Deye SUN-6K-SG05LP3-EU',brand:'Deye',power:6,price:5080,image:'deye-inverter'},
+  {id:'inv-17',name:'Deye SUN-8K-SG05LP3-EU',brand:'Deye',power:8,price:5320,image:'deye-inverter'},
+  {id:'inv-18',name:'Deye SUN-10K-SG05LP3-EU',brand:'Deye',power:10,price:5550,image:'deye-inverter'},
+  {id:'inv-19',name:'Deye SUN-12K-SG05LP3-EU',brand:'Deye',power:12,price:6080,image:'deye-inverter'}],
+ batteries:[
+  {id:'bat-23',name:'Brak',brand:'-',capacity:0,price:0,max:0,image:null,cube:false},
+  {id:'bat-24',name:'Hoymiles LB-15D-G3 15 kWh',brand:'Hoymiles',capacity:15,price:6390,max:4,image:'hoymiles-battery',cube:false},
+  {id:'bat-25',name:'FoxESS EP12 11,52 kWh',brand:'FoxESS',capacity:11.52,price:7650,max:4,image:'foxess-ep12',cube:false},
+  {id:'bat-26',name:'Deye SE-G5.1 Pro-B 5,12 kWh',brand:'Deye',capacity:5.12,price:2990,max:4,image:'deye-g51',cube:false},
+  {id:'bat-27',name:'Deye SE-F16-C 16 kWh',brand:'Deye',capacity:16,price:6700,max:4,image:'deye-f16',cube:false},
+  {id:'bat-28',name:'FoxESS Energy Cube EQ6000 Plus-M',brand:'FoxESS',capacity:5.99,price:4950,max:6,image:'foxess-eq6000',cube:true},
+  {id:'bat-29',name:'FELICITY FLA48460TG2-EU (23,5 kWh)',brand:'Felicity',capacity:23.5,price:9700,max:15,image:'felicity-battery',cube:false}],
+ construction:[
+  {panels:6,prices:[419.26,484.66,167.1,1520]},{panels:7,prices:[490.96,567.26,191,1520]},
+  {panels:8,prices:[559.46,646.66,214.9,1520]},{panels:9,prices:[627.96,726.06,238.8,2160]},
+  {panels:10,prices:[699.66,808.66,262.7,2160]},{panels:11,prices:[770.02,889.92,310.3,2360]},
+  {panels:12,prices:[838.52,969.32,334.2,2360]},{panels:13,prices:[910.22,1051.92,358.1,3000]},
+  {panels:14,prices:[981.92,1134.52,382,3000]},{panels:15,prices:[1050.42,1213.92,405.9,3040]},
+  {panels:16,prices:[1118.92,1293.32,429.8,3040]},{panels:17,prices:[1187.42,1372.72,453.7,3680]},
+  {panels:18,prices:[1255.92,1452.12,477.6,3680]},{panels:19,prices:[1327.62,1534.72,501.5,3880]}]
+};
+const ASSETS={
+ 'hoymiles-inverter':{path:'assets/hoymiles-hit.webp'},
+ 'foxess-inverter':{path:'assets/foxess-p3-sh.webp'},
+ 'deye-inverter':{path:'assets/deye-sg05lp3-sm2.webp'},
+ 'hoymiles-battery':{path:'assets/hoymiles-lb15.webp'},
+ 'foxess-ep12':{path:'assets/foxess-ep12.webp'},
+ 'deye-g51':{path:'assets/deye-se-g51-pro-b.webp'},
+ 'deye-f16':{path:'assets/deye-se-f16-c.webp'},
+ 'foxess-eq6000':{path:'assets/foxess-eq6000-plus.webp'},
+ 'felicity-battery':{path:'assets/felicity-fla48460tg2-eu.webp'},
+ 'longi-panel':{path:'assets/longi-lr7-60hvh-540.webp'},
+ 'tcl-panel':{path:'assets/tcl-hsm-nd54-dr500.webp'},
+ 'jinko-panel':{path:'assets/jinko-jkm620n-66hl4m-bdv.webp'}
+};
+
+/* ============ KALKULATOR ============ */
+const DEFAULT_STATE={mode:'pv',panel:'panel-540',panels:10,mount:0,inverter:'inv-4',battery:'bat-24',quantity:1,
+  transport:false,modernization:false,backup:false,trench:0,tigo:0,ppoz:true,vat:0.08,ulga:0.12};
+
+function compatibleBatteries(inverterId){
+  const inv=DATA.inverters.find(x=>x.id===inverterId);
+  return DATA.batteries.filter(b=>b.id==='bat-23'||b.brand===inv.brand||(b.brand==='Felicity'&&inv.brand==='Deye'));
+}
+function normalizeState(raw){
+  const s={...DEFAULT_STATE,...raw};
+  const clamp=(v,min,max,round)=>{const n=Number(v);const r=Math.min(max,Math.max(min,Number.isFinite(n)?n:min));return round?Math.round(r):r;};
+  s.mode=s.mode==='storage'?'storage':'pv';
+  s.panels=clamp(s.panels,6,19,true); s.mount=clamp(s.mount,0,3,true);
+  if(!DATA.panels.some(p=>p.id===s.panel)) s.panel=DEFAULT_STATE.panel;
+  if(!DATA.panels.find(p=>p.id===s.panel).allowedMounts.includes(s.mount)) s.panel=DEFAULT_STATE.panel;
+  if(!DATA.inverters.some(i=>i.id===s.inverter)) s.inverter=DEFAULT_STATE.inverter;
+  const compatible=compatibleBatteries(s.inverter);
+  if(!compatible.some(b=>b.id===s.battery)) s.battery=compatible.find(b=>b.id!=='bat-23').id;
+  const battery=DATA.batteries.find(b=>b.id===s.battery);
+  s.quantity=battery.id==='bat-23'?0:clamp(s.quantity,1,battery.max,true);
+  s.trench=clamp(s.trench,0,100000); s.tigo=clamp(s.tigo,0,s.panels,true);
+  s.vat=Number(s.vat)===0.23?0.23:0.08; s.ulga=Number(s.ulga)===0.32?0.32:0.12;
+  s.transport=!!s.transport; s.modernization=!!s.modernization; s.backup=!!s.backup; s.ppoz=!!s.ppoz;
+  return s;
+}
+function calculate(raw){
+  const s=normalizeState(raw),c=DATA.constants;
+  const inverter=DATA.inverters.find(x=>x.id===s.inverter),battery=DATA.batteries.find(x=>x.id===s.battery),panel=DATA.panels.find(x=>x.id===s.panel);
+  const hasPV=s.mode==='pv',hasBattery=battery.id!=='bat-23',fox=inverter.brand==='FoxESS';
+  const construction=DATA.construction.find(x=>x.panels===s.panels);
+  const power=hasPV?s.panels*panel.power:0;
+  const ppozEligible=hasPV&&power>6.5, ppozApplied=ppozEligible&&s.ppoz, ppozNet=ppozApplied?c.ppoz:0;
+  const capacity=hasBattery?(battery.cube?(1+s.quantity)*battery.capacity:s.quantity*battery.capacity):0;
+  const rows=[
+    ['Panele',hasPV?s.panels*panel.price:0],
+    ['Falownik hybrydowy',inverter.price],
+    ['Magazyn energii',hasBattery?(battery.cube?c.cubeMaster+s.quantity*c.cubeSlave:s.quantity*battery.price):0],
+    ['FoxESS Smart Meter 3F',fox?c.smartMeter:0],
+    ['FoxESS EPS BOX-TP',fox?c.epsBox:0],
+    ['Konstrukcja',hasPV?construction.prices[s.mount]:0],
+    ['Zabezpieczenie AC',inverter.power<=8?c.acSmall:c.acLarge],
+    ['Zabezpieczenie DC PV',hasPV?(s.panels<=10?c.dcSmall:c.dcLarge):0],
+    ['Transport konstrukcji',hasPV&&s.mount===3&&s.transport?c.groundTransport:0],
+    ['Montaż PV',power*c.pvInstall],
+    ['Montaż magazynu i falownika',hasBattery?c.batteryInstall+Math.max(0,s.quantity-(battery.cube?0:1))*c.extraModuleInstall:0],
+    ['Modernizacja rozdzielnicy',s.modernization?c.modernization:0],
+    ['Zasilanie awaryjne',s.backup?c.backup:0],
+    ['Przekop',s.trench*c.trench],
+    ['Optymalizatory Tigo',hasPV?s.tigo*c.tigo:0],
+    ['Przewody',c.cables]
+  ];
+  const quoteReady=rows.every(([,v])=>Number.isFinite(v));
+  const cost=quoteReady?rows.reduce((a,[,v])=>a+v,0):null;
+  const net=quoteReady?cost/(1-c.margin)+ppozNet:null;
+  const vatAmount=quoteReady?net*s.vat:null, gross=quoteReady?net+vatAmount:null;
+
+  // Dotacje — tylko osoby fizyczne (VAT 8%)
+  const eligible=quoteReady&&s.vat===0.08;
+  const kpo=eligible&&hasBattery?Math.min(DATA.subsidy.kpoMax,net*DATA.subsidy.kpoPercent):0;
+  const ulgaBase=eligible?Math.min(Math.max(0,gross-kpo),DATA.subsidy.ulgaMaxBase):0;
+  const ulga=eligible?ulgaBase*s.ulga:0;
+  const afterSubsidy=quoteReady?gross-kpo-ulga:null;
+
+  return {state:s,inverter,battery,panel,power,capacity,quoteReady,cost,net,vatAmount,gross,
+          ppozEligible,ppozApplied,eligible,hasBattery,kpo,ulga,afterSubsidy};
+}
+
+/* ============ UI ============ */
+const $=id=>document.getElementById(id);
+const fmt=(n,d=2)=>n.toLocaleString('pl-PL',{minimumFractionDigits:d,maximumFractionDigits:d});
+const money=n=>n===null||n===undefined?'—':fmt(n)+' zł';
+const money0=n=>fmt(Math.round(n),0)+' zł';
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let state={...DEFAULT_STATE};
+const setText=(id,v)=>{$(id).textContent=v;};
+
+function imageFor(id,key,alt){
+  const el=$(id),asset=ASSETS[key];
+  if(!asset){el.hidden=true;return;}
+  el.hidden=false;
+  if(el.getAttribute('src')!==asset.path) el.src=asset.path;
+  el.alt=alt;
+}
+function options(id,items,value,label){
+  const el=$(id);
+  const html=items.map(x=>'<option value="'+esc(x.id)+'">'+esc(label(x))+'</option>').join('');
+  if(el.innerHTML!==html) el.innerHTML=html;
+  el.value=value;
+}
+function shortBattery(b){
+  if(b.cube) return 'Energy Cube EQ6000 Plus';
+  if(b.id==='bat-23') return 'Bez magazynu energii';
+  return b.name.replace(/^(Hoymiles |FoxESS |Deye |FELICITY )/,'');
+}
+
+function render(){
+  const r=calculate(state); state=r.state;
+  const {inverter,battery,panel}=r, hasPV=state.mode==='pv', hasBattery=r.hasBattery;
+
+  document.querySelectorAll('[name=mode]').forEach(el=>el.checked=el.value===state.mode);
+  document.querySelectorAll('[name=brand]').forEach(el=>el.checked=el.value===inverter.brand);
+  document.querySelectorAll('[name=vat]').forEach(el=>el.checked=Number(el.value)===state.vat);
+  document.querySelectorAll('[name=ulga]').forEach(el=>el.checked=Number(el.value)===state.ulga);
+
+  /* 01 panele */
+  $('panels-section').hidden=!hasPV; $('tigo-field').hidden=!hasPV;
+  $('panels').value=state.panels;
+  $('panels').style.setProperty('--range',((state.panels-6)/13*100)+'%');
+  setText('panels-output',state.panels); setText('pv-power',fmt(r.power)+' kWp');
+  $('mount').value=state.mount; $('transport-row').hidden=state.mount!==3||!hasPV; $('transport').checked=state.transport;
+  options('panel-model',DATA.panels,state.panel,p=>p.optionLabel);
+  for(const o of $('panel-model').options) o.disabled=!DATA.panels.find(p=>p.id===o.value).allowedMounts.includes(state.mount);
+  imageFor('panel-image',panel.image,panel.name);
+  setText('panel-caption',panel.brand); setText('panel-brand',panel.brand); setText('panel-name',panel.model);
+  setText('panel-features',panel.features); $('panel-features').hidden=!panel.features;
+  setText('panel-watts',fmt(panel.power*1000,0)+' W');
+  setText('range-min','6 szt. / '+fmt(6*panel.power)+' kWp');
+  setText('range-max','19 szt. / '+fmt(19*panel.power)+' kWp');
+  setText('panel-availability','Jinko Solar 620 W jest dostępny wyłącznie dla montażu na gruncie.');
+
+  /* 02 falownik */
+  setText('inverter-brand',inverter.brand);
+  options('inverter',DATA.inverters.filter(x=>x.brand===inverter.brand),state.inverter,x=>x.name.replace(inverter.brand+' ','')+' · '+fmt(x.power,0)+' kW');
+  imageFor('inverter-image',inverter.image,'Falownik '+inverter.name);
+  setText('inverter-power',fmt(inverter.power,0)+' kW');
+  setText('inverter-caption',inverter.brand==='Deye'?'Nowa obudowa':'Zdjęcie serii');
+  setText('inverter-note',inverter.brand==='FoxESS'?'W cenie uwzględniono Smart Meter 3F i EPS BOX-TP.':'Zabezpieczenie AC jest uwzględnione w wycenie.');
+
+  /* 03 magazyn */
+  options('battery',compatibleBatteries(state.inverter),state.battery,b=>b.id==='bat-23'?'Bez magazynu energii':(b.brand==='Felicity'?'Felicity '+shortBattery(b):shortBattery(b)));
+  imageFor('battery-image',battery.image,battery.name);
+  $('no-battery').hidden=hasBattery; $('battery-caption').hidden=!hasBattery;
+  setText('battery-caption',battery.cube?'Zdjęcie serii':'Zdjęcie produktu');
+  setText('battery-capacity',hasBattery?fmt(r.capacity)+' kWh':'Bez magazynu');
+  setText('battery-quantity-label',battery.cube?'Moduły dodatkowe Plus-S':'Liczba magazynów');
+  $('battery-quantity').value=state.quantity; $('battery-quantity').min=hasBattery?1:0;
+  $('battery-quantity').max=battery.max; $('battery-quantity').disabled=!hasBattery;
+  setText('battery-note',!hasBattery?'Zestaw nie obejmuje magazynu ani jego montażu.':battery.cube
+    ?'1 × Plus-M + '+state.quantity+' × Plus-S = '+fmt(r.capacity)+' kWh. Zakres: 1–6 modułów Plus-S.'
+    :fmt(battery.capacity)+' kWh / szt. · maksymalnie '+battery.max+' szt.'+(battery.brand==='Felicity'?' Wyłącznie z falownikiem Deye.':''));
+
+  /* 04 dodatki */
+  $('modernization').checked=state.modernization; $('modernization-row').classList.toggle('on',state.modernization);
+  $('backup').checked=state.backup; $('eps-row').classList.toggle('on',state.backup);
+  $('trench').value=state.trench; $('tigo').value=state.tigo; $('tigo').max=state.panels;
+  $('ppoz-row').hidden=!hasPV; $('ppoz').checked=r.ppozApplied; $('ppoz').disabled=!r.ppozEligible;
+  $('ppoz-row').classList.toggle('on',r.ppozApplied);
+  setText('ppoz-availability',r.ppozEligible?'Wymagane dla instalacji powyżej 6,5 kWp':'Dostępne powyżej 6,5 kWp');
+
+  /* podsumowanie */
+  $('summary-pv').innerHTML=hasPV?fmt(r.power)+' <small>kWp</small>':'<small>Bez paneli PV</small>';
+  $('summary-capacity').innerHTML=hasBattery?fmt(r.capacity)+' <small>kWh</small>':'<small>Bez magazynu</small>';
+  const items=[];
+  if(hasPV) items.push(['01',panel.name,state.panels+' paneli · '+DATA.mounts[state.mount]]);
+  items.push(['02',inverter.name,fmt(inverter.power,0)+' kW · falownik hybrydowy']);
+  items.push(['03',hasBattery?battery.brand+' '+shortBattery(battery):'Bez magazynu energii',
+    hasBattery?(battery.cube?'1 × M + '+state.quantity+' × S · '+fmt(r.capacity)+' kWh':state.quantity+' szt. · '+fmt(r.capacity)+' kWh'):'Wycena bez magazynu']);
+  const add=[state.modernization?'modernizacja rozdzielnicy':null,state.backup?'zasilanie awaryjne':null,
+    state.trench>0?'przekop '+fmt(state.trench,1)+' m':null, hasPV&&state.tigo>0?state.tigo+' × Tigo':null,
+    hasPV&&state.mount===3&&state.transport?'transport konstrukcji':null, r.ppozApplied?'PPOŻ':null].filter(Boolean);
+  if(add.length) items.push(['04','Wybrane dodatki',add.join(' · ')]);
+  $('selected-items').innerHTML=items.map(([n,t,s2])=>'<div class="selected-item"><span class="item-number">'+n+'</span><div><strong>'+esc(t)+'</strong><p>'+esc(s2)+'</p></div></div>').join('');
+
+  $('total').innerHTML=r.quoteReady?fmt(r.gross)+' <small>zł</small>':'Wycena indywidualna';
+  $('total').classList.toggle('unpriced',!r.quoteReady);
+  setText('mobile-total',r.quoteReady?money(r.gross):'Wycena indywidualna');
+  setText('net',money(r.net)); setText('vat-amount',money(r.vatAmount));
+  setText('vat-label',fmt(state.vat*100,0)+'%');
+  $('quote-unavailable').hidden=r.quoteReady;
+
+  /* dotacje */
+  const sub=$('subsidy');
+  $('kpo-row').classList.toggle('off',!r.kpo);
+  setText('kpo-label',r.eligible&&!hasBattery?'Dotacja wymaga magazynu energii':'Dotacja na magazyn (do 16 000 zł)');
+  setText('kpo-value',r.eligible?(r.kpo?'−'+money0(r.kpo):'—'):'—');
+  $('ulga-pick').hidden=!r.eligible;
+  setText('ulga-value',r.eligible?'−'+money0(r.ulga):'—');
+  setText('after-subsidy',r.quoteReady?money0(r.afterSubsidy):'—');
+  setText('subsidy-note',r.eligible
+    ? 'Kwoty szacunkowe. Dotacja do 16 000 zł zależy od dostępności naboru i kosztów kwalifikowanych; ulga termomodernizacyjna — od dochodu i progu podatkowego. Formalności prowadzimy za Ciebie.'
+    : 'Dotacje i ulga termomodernizacyjna dotyczą osób fizycznych rozliczających instalację ze stawką VAT 8%.');
+  sub.style.opacity=r.quoteReady?1:.5;
+}
+
+/* --- zasilanie awaryjne: symulacja zaniku napięcia --- */
+let epsTimer=null;
+function epsBlackout(){
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const o=$('eps-overlay');
+  clearTimeout(epsTimer);
+  o.classList.remove('restore'); void o.offsetWidth;
+  o.classList.add('cut');
+  epsTimer=setTimeout(()=>{
+    o.classList.remove('cut'); void o.offsetWidth;
+    o.classList.add('restore');
+    setTimeout(()=>o.classList.remove('restore'),1000);
+  },320);
+}
+
+function change(patch){state=normalizeState({...state,...patch});render();}
+document.querySelectorAll('[name=mode]').forEach(el=>el.addEventListener('change',()=>change({mode:el.value})));
+document.querySelectorAll('[name=brand]').forEach(el=>el.addEventListener('change',()=>{
+  const prev=DATA.inverters.find(i=>i.id===state.inverter);
+  const fam=DATA.inverters.filter(i=>i.brand===el.value);
+  const next=fam.find(i=>i.power===prev.power)||fam.reduce((a,b)=>Math.abs(b.power-prev.power)<Math.abs(a.power-prev.power)?b:a);
+  change({inverter:next.id});
+}));
+document.querySelectorAll('[name=vat]').forEach(el=>el.addEventListener('change',()=>change({vat:Number(el.value)})));
+document.querySelectorAll('[name=ulga]').forEach(el=>el.addEventListener('change',()=>change({ulga:Number(el.value)})));
+$('panels').addEventListener('input',e=>change({panels:Number(e.target.value)}));
+$('mount').addEventListener('change',e=>change({mount:Number(e.target.value)}));
+$('panel-model').addEventListener('change',e=>change({panel:e.target.value}));
+$('inverter').addEventListener('change',e=>change({inverter:e.target.value}));
+$('battery').addEventListener('change',e=>change({battery:e.target.value,quantity:1}));
+$('battery-quantity').addEventListener('change',e=>change({quantity:Number(e.target.value)}));
+['modernization','transport','ppoz'].forEach(n=>$(n).addEventListener('change',e=>change({[n]:e.target.checked})));
+$('backup').addEventListener('change',e=>{const on=e.target.checked; if(on) epsBlackout(); change({backup:on});});
+['trench','tigo'].forEach(n=>$(n).addEventListener('change',e=>change({[n]:Number(e.target.value)})));
+document.querySelectorAll('[data-step]').forEach(el=>el.addEventListener('click',()=>{
+  const [k,by]=el.dataset.step.split(':');
+  change({[k]:state[k]+Number(by)});
+}));
+render();
+</script>
+</body>
+</html>
